@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "M3"
+    }
+
+    stages {
+        stage('First stage') {
+            steps {
+                git branch: 'main', url: 'https://github.com/sritejindia/SampleCucumber.git'
+            }
+
+        }
+        stage('Second stage') {
+            steps {
+                sh 'mvn clean test-compile test -Dtest="RunCucumberTest1, RunCucumberTest2"'
+
+            }
+
+        }
+        stage('Third stage') {
+            steps {
+                cucumber expandAllSteps: true, failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, fileIncludePattern: '**/*.json', jsonReportDirectory: 'target', mergeFeaturesById: true, mergeFeaturesWithRetest: true, pendingStepsNumber: -1, reportTitle: 'MyReports', skipEmptyJSONFiles: true, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+                sh 'printenv'
+            }
+
+        }
+        stage('Foud'){
+            steps {
+
+                sh "cd /var/jenkins_home/jobs/testsseds/jobs/pipeline/builds/${BUILD_ID}/cucumber*; pwd"
+
+
+            }
+        }
+    }
+}

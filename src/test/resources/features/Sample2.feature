@@ -1,5 +1,6 @@
 Feature: Highlander
 
+  @TestCaseKey=DEM-T3
   Scenario: All done
     Given I am out shopping
     And I have eggs
